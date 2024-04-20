@@ -1,5 +1,5 @@
 import React from "react";
-import { Movie } from "../models/movies-series.models";
+import { Movie, Serie } from "../models/movies-series.models";
 import { Image, Pressable, StyleSheet, View } from "react-native";
 import { Text } from "react-native-paper";
 import { format } from "date-fns"
@@ -7,21 +7,24 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons"
 import { colors } from "../theme/Colors";
 
 interface ItemContainerProps {
-    item: Movie
+    item: Movie | Serie
     onPress: () => void
 }
 
+const isMovie = (item: Movie | Serie): item is Movie => {
+    return (item as Movie).release_date !== undefined;
+};
 
 const ItemContainer: React.FC<ItemContainerProps> = ({ item, onPress }) => {
     return (
         <Pressable style={styles.mainContainer} onPress={onPress}>
             <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
                 <Image source={{ uri: `https://image.tmdb.org/t/p/w500/${item.poster_path}` }} width={100} height={100} />
-                <Text numberOfLines={1} style={styles.title}>{item.title}</Text>
+                <Text numberOfLines={1} style={styles.title}>{isMovie(item) ? item.title : item.name}</Text>
             </View>
             <View style={styles.row}>
                 <Text>Release date :</Text>
-                <Text numberOfLines={1} style={styles.date}>{format(item.release_date, "dd/MM/yyyy")}</Text>
+                <Text numberOfLines={1} style={styles.date}>{format(isMovie(item) ? item.release_date : item.first_air_date, "dd/MM/yyyy")}</Text>
             </View>
 
             <Text>Overview :</Text>
@@ -51,7 +54,8 @@ const styles = StyleSheet.create({
         marginBottom: 3
     },
     date: {
-        color: "gray"
+        color: "gray",
+        marginLeft: 5
     },
     text: {
         color: "gray",
