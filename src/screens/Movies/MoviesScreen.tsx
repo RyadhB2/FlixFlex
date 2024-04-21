@@ -1,6 +1,7 @@
 import React, { useRef } from 'react';
 import {
   FlatList,
+  Pressable,
   RefreshControl,
   Text,
   View,
@@ -10,6 +11,8 @@ import { useMovies } from '../../hooks/useMovies';
 import { ActivityIndicator } from 'react-native-paper';
 import { colors } from '../../theme/Colors';
 import ItemContainer from '../../components/ItemContainer';
+import { useNavigation } from '@react-navigation/native';
+import { DefaultMainNavigationProp } from '../../utils/RoutersType';
 
 
 
@@ -20,7 +23,7 @@ const MoviesScreen: React.FC = () => {
   const endReached = useRef(false)
 
   //Hooks
-
+  const navigation = useNavigation<DefaultMainNavigationProp>()
 
   //Effects
 
@@ -34,6 +37,9 @@ const MoviesScreen: React.FC = () => {
   return (
     <View style={styles.mainContainer}>
       <View style={{ flex: 1 }}>
+        <Pressable style={styles.topRatedButton} onPress={() => navigation.navigate("TopRated", { forMedia: "Movie" })}>
+          <Text style={styles.topRatedText}>CHECK TOP RATED</Text>
+        </Pressable>
         {isMainLoading ? <ActivityIndicator color={colors.primary} style={{ marginTop: 70, alignSelf: "center" }} /> :
           <FlatList
             contentContainerStyle={{ paddingVertical: 12, marginBottom: 200, flexGrow: 1 }}

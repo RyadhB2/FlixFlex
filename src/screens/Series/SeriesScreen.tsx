@@ -1,6 +1,7 @@
 import React, { useRef } from 'react';
 import {
   FlatList,
+  Pressable,
   RefreshControl,
   Text,
   View,
@@ -10,6 +11,8 @@ import { ActivityIndicator } from 'react-native-paper';
 import { colors } from '../../theme/Colors';
 import ItemContainer from '../../components/ItemContainer';
 import { useSeries } from '../../hooks/useSeries';
+import { useNavigation } from '@react-navigation/native';
+import { DefaultMainNavigationProp } from '../../utils/RoutersType';
 
 
 
@@ -20,6 +23,7 @@ const SeriesScreen: React.FC = () => {
   const endReached = useRef(false)
 
   //Hooks
+  const navigation = useNavigation<DefaultMainNavigationProp>()
 
 
   //Effects
@@ -33,6 +37,10 @@ const SeriesScreen: React.FC = () => {
   //rendering
   return (
     <View style={styles.mainContainer}>
+      <Pressable onPress={() => navigation.navigate("TopRated", { forMedia: "Serie" })}
+        style={styles.topRatedButton}>
+        <Text style={styles.topRatedText}>CHECK TOP RATED</Text>
+      </Pressable>
       <View style={{ flex: 1 }}>
         {isMainLoading ? <ActivityIndicator color={colors.primary} style={{ marginTop: 70, alignSelf: "center" }} /> :
           <FlatList

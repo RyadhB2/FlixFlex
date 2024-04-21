@@ -12,7 +12,6 @@ export default StyleSheet.create({
     },
     contentContainer: {
         flexGrow: 1,
-        backgroundColor: colors.white
     },
     cardsContainer: {
         paddingHorizontal: 16,
@@ -27,15 +26,10 @@ export default StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
     },
-    topRatedButton: {
-        height: 64,
-        backgroundColor: colors.primary,
-        borderRadius: 4,
-        justifyContent: "center",
-        alignItems: "center",
-        margin: 5
-    },
-    topRatedText: {
-        color: colors.white
+    headerText: {
+        color: colors.black,
+        fontWeight: "600",
+        fontSize: 20,
+        padding: 5
     }
 });

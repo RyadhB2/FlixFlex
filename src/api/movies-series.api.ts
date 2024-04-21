@@ -31,3 +31,19 @@ export const getSeriesAPI = async (params: MoviesSeriesParams): Promise<SeriesIn
         throw error;
     }
 };
+type forMedia = "Movie" | "Serie";
+export const getTopRated = async (forMedia: forMedia): Promise<SeriesInfos | MoviesInfos> => {
+    const media = forMedia === "Movie" ? "movie" : "tv"
+    try {
+        const response = await apiClient
+            .get(`/3/${media}/top_rated`, {
+                params: {
+                    page: 1
+                }
+            });
+        return response.data;
+    }
+    catch (error) {
+        throw error;
+    }
+};

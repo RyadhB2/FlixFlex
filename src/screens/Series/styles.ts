@@ -5,7 +5,7 @@ import { colors } from '../../theme/Colors';
 export default StyleSheet.create({
     mainContainer: {
         flex: 1,
-        backgroundColor:colors.white
+        backgroundColor: colors.white
     },
     container: {
         flex: 1,
@@ -26,4 +26,15 @@ export default StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
     },
+    topRatedButton: {
+        height: 64,
+        backgroundColor: colors.primary,
+        borderRadius: 4,
+        justifyContent: "center",
+        alignItems: "center",
+        margin: 5
+    },
+    topRatedText: {
+        color: colors.white
+    }
 });

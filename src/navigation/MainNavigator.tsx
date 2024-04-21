@@ -3,6 +3,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import BottomTabNavigator from './BottomTabStack';
 import { MainNavigatorParamList } from '../utils/RoutersType';
 import DetailScreen from '../screens/Details';
+import TopRated from '../screens/TopRated';
 
 const Stack = createNativeStackNavigator<MainNavigatorParamList>();
 
@@ -22,8 +23,17 @@ const MainNavigator = () => {
         name="Details"
         component={DetailScreen}
       />
+      <Stack.Screen
+        name="TopRated"
+        component={TopRated}
+        options={({ route }) => {
+          return ({
+            title: `Top Rated ${route.params.forMedia}s`
+          })
+        }}
+      />
     </Stack.Navigator>
   );
 };
-
+// title:  `Top Rated ${route.params.forMedia}s`
 export default MainNavigator;

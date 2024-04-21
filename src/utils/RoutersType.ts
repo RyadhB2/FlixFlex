@@ -9,8 +9,8 @@ export type BottomTabParamList = {
 }
 export type MainNavigatorParamList = {
   BottomTab: NavigatorScreenParams<BottomTabParamList> | undefined,
-
   Details: undefined
+  TopRated: { forMedia: "Serie" | "Movie" }
 };
 export type BottomTabNavigationProp = StackNavigationProp<BottomTabParamList>;
 

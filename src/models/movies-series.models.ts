@@ -34,3 +34,5 @@ export interface SeriesInfos {
     total_pages: number;
     total_results: number;
 }
+
+export type Media = Serie | Movie
