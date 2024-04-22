@@ -12,10 +12,11 @@ interface ItemContainerProps {
 }
 
 const isMovie = (item: Movie | Serie): item is Movie => {
-    return (item as Movie).release_date !== undefined;
+    return (item as Movie)?.release_date !== undefined;
 };
 
 const ItemContainer: React.FC<ItemContainerProps> = ({ item, onPress }) => {
+    const date = isMovie(item) ? item.release_date : item.first_air_date
     return (
         <Pressable style={styles.mainContainer} onPress={onPress}>
             <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
@@ -24,7 +25,7 @@ const ItemContainer: React.FC<ItemContainerProps> = ({ item, onPress }) => {
             </View>
             <View style={styles.row}>
                 <Text>Release date :</Text>
-                <Text numberOfLines={1} style={styles.date}>{format(isMovie(item) ? item.release_date : item.first_air_date, "dd/MM/yyyy")}</Text>
+                <Text numberOfLines={1} style={styles.date}>{date ? format(date, "dd/MM/yyyy") : "---"}</Text>
             </View>
 
             <Text>Overview :</Text>
