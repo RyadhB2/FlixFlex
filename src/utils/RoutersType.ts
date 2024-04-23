@@ -1,5 +1,6 @@
 import { NavigatorScreenParams } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
+import { Media } from "../models/movies-series.models";
 
 
 
@@ -9,7 +10,10 @@ export type BottomTabParamList = {
 }
 export type MainNavigatorParamList = {
   BottomTab: NavigatorScreenParams<BottomTabParamList> | undefined,
-  Details: undefined
+  Details: {
+    id: number;
+    type: "Serie" | "Movie"
+  }
   TopRated: { forMedia: "Serie" | "Movie" }
 };
 export type BottomTabNavigationProp = StackNavigationProp<BottomTabParamList>;

@@ -9,10 +9,10 @@ import styles from './styles';
 import { ActivityIndicator } from 'react-native-paper';
 import { colors } from '../../theme/Colors';
 import ItemContainer from '../../components/ItemContainer';
-import { Media } from '../../models/movies-series.models';
+import { Media, Movie } from '../../models/movies-series.models';
 import { getTopRated } from '../../api/movies-series.api';
-import { RouteProp, useRoute } from '@react-navigation/native';
-import { MainNavigatorParamList } from '../../utils/RoutersType';
+import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
+import { DefaultMainNavigationProp, MainNavigatorParamList } from '../../utils/RoutersType';
 
 
 const TopRatedScreen: React.FC = () => {
@@ -24,6 +24,7 @@ const TopRatedScreen: React.FC = () => {
   const { forMedia } = useRoute<RouteProp<MainNavigatorParamList, "TopRated">>().params
   const firstRender = useRef(true)
   //Hooks
+  const navigation = useNavigation<DefaultMainNavigationProp>()
 
 
   //Effects
@@ -33,7 +34,6 @@ const TopRatedScreen: React.FC = () => {
 
   useEffect(() => {
     if (firstRender.current || refreshing) {
-      console.log("qlkjl")
       async function fetchData() {
         try {
           setIsMainLoading(true)
@@ -69,7 +69,7 @@ const TopRatedScreen: React.FC = () => {
             keyExtractor={(item) => `${item.id}`}
             renderItem={({ item, index }) => {
               return (
-                <ItemContainer item={item} onPress={() => null} />
+                <ItemContainer item={item} onPress={() => navigation.navigate("Details", { id: item.id, type: (item as Movie)?.release_date !== undefined ? "Movie" : "Serie" })} />
               )
             }
             }

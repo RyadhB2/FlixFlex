@@ -49,7 +49,7 @@ const SeriesScreen: React.FC = () => {
             keyExtractor={(item) => `${item.id}`}
             renderItem={({ item, index }) => {
               return (
-                <ItemContainer item={item} onPress={() => null} />
+                <ItemContainer item={item} onPress={() => navigation.navigate("Details", { id: item.id, type: "Serie" })} />
               )
             }
             }

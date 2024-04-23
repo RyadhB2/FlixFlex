@@ -1,5 +1,5 @@
 import createApiClient from "./apiClient";
-import { MoviesInfos, MoviesSeriesParams, SeriesInfos } from "../models/movies-series.models";
+import { Movie, MoviesInfos, MoviesSeriesParams, Serie, SeriesInfos } from "../models/movies-series.models";
 
 const apiClient = createApiClient();
 
@@ -41,6 +41,17 @@ export const getTopRated = async (forMedia: forMedia): Promise<SeriesInfos | Mov
                     page: 1
                 }
             });
+        return response.data;
+    }
+    catch (error) {
+        throw error;
+    }
+};
+
+export const getDetailsAPI = async (type: "Movie" | "Serie", id: number): Promise<Movie | Serie> => {
+    try {
+        const response = await apiClient
+            .get(`/3/${type === "Movie" ? "movie" : "tv"}/${id}`);
         return response.data;
     }
     catch (error) {

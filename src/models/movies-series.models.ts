@@ -2,6 +2,20 @@
 export interface MoviesSeriesParams {
     page: number
 }
+export interface Genre {
+    id: number;
+    name: string
+}
+export interface ProductionCompanie {
+    id: number;
+    name: string
+}
+export interface Episode {
+    id: number;
+    air_date: string;
+    episode_number: number;
+    name: string
+}
 
 export interface Movie {
     id: number;
@@ -10,7 +24,10 @@ export interface Movie {
     poster_path: string;
     release_date: string;
     video: boolean;
-    vote_average: number
+    vote_average: number;
+    genres?: Genre[];
+    production_companies?: ProductionCompanie[]
+    revenue?: number;
 }
 export interface Serie {
     id: number;
@@ -19,7 +36,13 @@ export interface Serie {
     poster_path: string;
     first_air_date: string;
     video: boolean;
-    vote_average: number
+    vote_average: number;
+    genres?: Genre[];
+    production_companies?: ProductionCompanie[]
+    last_air_date?: string;
+    number_of_seasons?: number;
+    number_of_episodes?: number;
+    next_episode_to_air?: Episode
 }
 
 export interface MoviesInfos {
