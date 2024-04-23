@@ -13,7 +13,7 @@ import AppNavigator from './src/navigation/AppNavigator';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import { persistor, store } from './src/redux/store/ConfigureStore';
-
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 function App(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
@@ -23,9 +23,11 @@ function App(): React.JSX.Element {
     <SafeAreaView style={{ flex: 1 }}>
       <Provider store={store}>
         <PersistGate persistor={persistor}>
-          <NavigationContainer>
-            <AppNavigator />
-          </NavigationContainer>
+          <GestureHandlerRootView style={{ flex: 1 }}>
+            <NavigationContainer>
+              <AppNavigator />
+            </NavigationContainer>
+          </GestureHandlerRootView>
         </PersistGate>
       </Provider>
     </SafeAreaView>

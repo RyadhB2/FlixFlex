@@ -50,6 +50,24 @@ export default StyleSheet.create({
         color: colors.white,
         fontWeight: "bold",
     },
-    row:{ flexDirection: "row", alignItems: "center" }
-
+    row: { flexDirection: "row", alignItems: "center" },
+    watchTrailerButton: {
+        justifyContent: "center",
+        alignItems: "center",
+        flexDirection: "row",
+        backgroundColor: "#b55c5c",
+        marginVertical: 6
+    },
+    watchTrailerText: {
+        color: colors.white,
+        paddingVertical: 8,
+        paddingHorizontal: 6,
+        textAlign: "left",
+        borderRadius: 10
+    },
+    bottomsheet_contentContainer: {
+        flex: 1,
+        alignItems: 'center',
+        backgroundColor: colors.white
+    },
 });
