@@ -10,32 +10,36 @@ import {
 import styles from './styles';
 import { RouteProp, useRoute } from '@react-navigation/native';
 import { MainNavigatorParamList } from '../../utils/RoutersType';
-import { Media, Movie, Serie } from '../../models/movies-series.models';
-import { getDetailsAPI } from '../../api/movies-series.api';
+import { Media, Movie, Serie, Video } from '../../models/movies-series.models';
+import { getDetailsAPI, getVideosAPI } from '../../api/movies-series.api';
 import Loader from '../../components/Loader';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { colors } from '../../theme/Colors';
 import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
+import YoutubePlayer from "react-native-youtube-iframe";
+
 
 
 const OrderDetailsScreen: React.FC = () => {
   //State & Data
   const [item, setItem] = useState<Media | undefined>(undefined)
   const [isMainLoading, setIsMainLoading] = useState(true)
-
+  const [videos, setVideos] = useState<Video[] | undefined>(undefined)
+  const trailerVideo = videos?.filter((video) => video.site === "YouTube" && video.type === "Trailer")[0]
+  const trailerAvailable = Boolean(trailerVideo)
   const { id, type } = useRoute<RouteProp<MainNavigatorParamList, "Details">>().params;
   const bottomSheetRef = useRef<BottomSheet>(null);
   const snapPoints = useMemo(() => [1, "100%"], []);
 
-
   //Effects
-
-  //functions
   useEffect(() => {
     async function getDetails(id: number) {
       try {
         setIsMainLoading(true)
         const res = await getDetailsAPI(type, id)
+        const videosRes = await getVideosAPI(type, id)
+        const videos = videosRes.results
+        setVideos(videos)
         setItem(res)
         setIsMainLoading(false)
       } catch (error) {
@@ -45,6 +49,9 @@ const OrderDetailsScreen: React.FC = () => {
     }
     getDetails(id)
   }, [])
+
+  //functions
+
 
   const handleSheetChanges = useCallback((index: number) => {
     console.log('handleSheetChanges', index);
@@ -69,7 +76,12 @@ const OrderDetailsScreen: React.FC = () => {
 
           <Text style={styles.overview}>{item?.overview}</Text>
 
-          <Pressable style={styles.watchTrailerButton} onPress={() => { bottomSheetRef.current?.snapToIndex(1) }}>
+          <Pressable
+            disabled={!trailerAvailable}
+            style={[styles.watchTrailerButton, {
+              backgroundColor: !trailerAvailable ? colors.gray_900 : colors.secondary,
+              opacity: !trailerAvailable ? 0.5 : 1
+            }]} onPress={() => { bottomSheetRef.current?.snapToIndex(1) }}>
             <Icon name='eye' size={16} color={colors.white} />
             <Text style={styles.watchTrailerText}>Watch Trailer</Text>
           </Pressable>
@@ -134,7 +146,15 @@ const OrderDetailsScreen: React.FC = () => {
         onChange={handleSheetChanges}
       >
         <BottomSheetView style={styles.bottomsheet_contentContainer}>
-          <Text>Awesome 🎉</Text>
+          <View style={{ flex: 1, width: "100%" }}>
+            <YoutubePlayer
+              height={500}
+              videoId={trailerVideo?.key}
+            />
+            <Pressable style={styles.goBackButton}>
+              <Text style={{ color: colors.white }}>Go back</Text>
+            </Pressable>
+          </View>
         </BottomSheetView>
       </BottomSheet>
     </>

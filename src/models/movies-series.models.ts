@@ -59,3 +59,14 @@ export interface SeriesInfos {
 }
 
 export type Media = Serie | Movie
+
+export interface Video {
+    id: string;
+    type: string;
+    key: string;
+    site: string;
+}
+export interface VideosInfos {
+    id: number;
+    results: Video[];
+}

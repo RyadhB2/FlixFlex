@@ -55,7 +55,7 @@ export default StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         flexDirection: "row",
-        backgroundColor: "#b55c5c",
+        backgroundColor: colors.secondary,
         marginVertical: 6
     },
     watchTrailerText: {
@@ -70,4 +70,11 @@ export default StyleSheet.create({
         alignItems: 'center',
         backgroundColor: colors.white
     },
+    goBackButton: {
+        paddingHorizontal: 3,
+        paddingVertical: 8,
+        backgroundColor: colors.primary,
+        justifyContent: "center",
+        alignItems: "center"
+    }
 });
