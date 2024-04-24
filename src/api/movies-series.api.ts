@@ -7,7 +7,7 @@ export const getMoviesAPI = async (params: MoviesSeriesParams): Promise<MoviesIn
 
     try {
         const response = await apiClient
-            .get('/3/discover/movie', {
+            .get('/3/movie/popular', {
                 params
             });
         return response.data;
@@ -22,7 +22,7 @@ export const getSeriesAPI = async (params: MoviesSeriesParams): Promise<SeriesIn
 
     try {
         const response = await apiClient
-            .get('/3/discover/tv', {
+            .get('3/tv/popular', {
                 params
             });
         return response.data;
