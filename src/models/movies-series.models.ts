@@ -2,6 +2,9 @@
 export interface MoviesSeriesParams {
     page: number
 }
+export interface SearchMoviesSeriesParams extends MoviesSeriesParams {
+    query: string
+}
 export interface Genre {
     id: number;
     name: string

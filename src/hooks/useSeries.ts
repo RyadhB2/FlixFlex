@@ -1,11 +1,13 @@
 import { useEffect, useRef, useState } from "react"
 import { Serie } from "../models/movies-series.models";
-import { getSeriesAPI } from "../api/movies-series.api";
+import { getSeriesAPI, searchSeriesAPI } from "../api/movies-series.api";
 
+interface useSeriesParams {
+    searchQuery: string
+}
 
-export const useSeries = () => {
+export const useSeries = (params: useSeriesParams) => {
     const [seriesList, setSeriesList] = useState<Serie[] | undefined>([]);
-    const initalSeriesList = useRef<Serie[] | undefined>(undefined)
     const [seriesListToDisplay, setSeriesListToDisplay] = useState<Serie[] | undefined>([]);
 
     const [isMainLoading, setIsMainLoading] = useState(false);
@@ -14,6 +16,7 @@ export const useSeries = () => {
     const [refreshing, setRefreshing] = useState(false);
     const [shouldFetch, setShouldFetch] = useState(true);
 
+    const searchQuery = params?.searchQuery
     const PAGE = useRef(1)
     const INDEX = useRef(0)
 
@@ -24,8 +27,10 @@ export const useSeries = () => {
                 try {
                     INDEX.current = 0
                     setIsMainLoading(true)
-                    const res = await getSeriesAPI({ page: PAGE.current });
-                    initalSeriesList.current = res.results;
+                    let res
+                    if (searchQuery === "")
+                        res = await getSeriesAPI({ page: PAGE.current });
+                    else res = await searchSeriesAPI({ page: PAGE.current, query: searchQuery });
                     setSeriesList(res.results)
                     setSeriesListToDisplay(res.results.slice(INDEX.current, INDEX.current + 10))
                     setIsMainLoading(false)
@@ -41,7 +46,7 @@ export const useSeries = () => {
             fetchData();
         }
 
-    }, [shouldFetch])
+    }, [shouldFetch, searchQuery])
 
     // Loading more data when scrolling down
     useEffect(() => {
@@ -55,9 +60,12 @@ export const useSeries = () => {
 
                     } else {
                         PAGE.current += 1;
-                        const res = await getSeriesAPI({ page: PAGE.current });
+                        let res
+                        if (searchQuery === "")
+                            res = await getSeriesAPI({ page: PAGE.current });
+                        else res = await searchSeriesAPI({ page: PAGE.current, query: searchQuery });
                         setSeriesList(seriesList?.concat(res.results))
-                        initalSeriesList.current = seriesList?.concat(res.results)
+
                         if (res.results) {
                             setSeriesListToDisplay(seriesListToDisplay?.concat(res.results.slice(0, 10)))
                             INDEX.current += 10;
@@ -74,7 +82,7 @@ export const useSeries = () => {
     }, [isLoadingMore])
 
     return {
-        seriesList, seriesListToDisplay, setSeriesListToDisplay, initalSeriesList, isMainLoading,
+        seriesList, seriesListToDisplay, setSeriesListToDisplay, isMainLoading,
         refreshing, setRefreshing, isLoadingMore, setIsLoadingMore, setShouldFetch
     }
 }

@@ -37,5 +37,27 @@ export default StyleSheet.create({
     },
     topRatedText: {
         color: colors.white
+    },
+    textInput: {
+        color: colors.black,
+        backgroundColor: colors.white,
+        borderWidth: 1,
+        borderColor: "gray",
+        borderRadius: 4,
+        paddingHorizontal: 8,
+        marginTop: 8,
+        height: 46,
+        flex: 1,
+    },
+    searchbarContainer: {
+        flexDirection: "row",
+        paddingHorizontal: 16,
+        alignItems: "center",
+    },
+    searchButton: {
+        backgroundColor: colors.secondary,
+        marginLeft: 5,
+        padding: 4,
+        borderRadius: 5
     }
 });

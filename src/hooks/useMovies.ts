@@ -1,11 +1,13 @@
 import { useEffect, useRef, useState } from "react"
 import { Movie } from "../models/movies-series.models";
-import { getMoviesAPI } from "../api/movies-series.api";
+import { getMoviesAPI, searchMoviesAPI } from "../api/movies-series.api";
 
+interface useMoviesParams {
+    searchQuery: string
+}
 
-export const useMovies = () => {
+export const useMovies = (params: useMoviesParams) => {
     const [moviesList, setMoviesList] = useState<Movie[] | undefined>([]);
-    const initalMoviesList = useRef<Movie[] | undefined>(undefined)
     const [moviesListToDisplay, setMoviesListToDisplay] = useState<Movie[] | undefined>([]);
 
     const [isMainLoading, setIsMainLoading] = useState(false);
@@ -14,6 +16,7 @@ export const useMovies = () => {
     const [refreshing, setRefreshing] = useState(false);
     const [shouldFetch, setShouldFetch] = useState(true);
 
+    const searchQuery = params?.searchQuery
     const PAGE = useRef(1)
     const INDEX = useRef(0)
 
@@ -24,8 +27,10 @@ export const useMovies = () => {
                 try {
                     INDEX.current = 0
                     setIsMainLoading(true)
-                    const res = await getMoviesAPI({ page: PAGE.current });
-                    initalMoviesList.current = res.results;
+                    let res
+                    if (searchQuery === "")
+                        res = await getMoviesAPI({ page: PAGE.current });
+                    else res = await searchMoviesAPI({ page: PAGE.current, query: searchQuery });
                     setMoviesList(res.results)
                     setMoviesListToDisplay(res.results.slice(INDEX.current, INDEX.current + 10))
                     setIsMainLoading(false)
@@ -41,7 +46,7 @@ export const useMovies = () => {
             fetchData();
         }
 
-    }, [shouldFetch])
+    }, [shouldFetch, searchQuery])
 
     // Loading more data when scrolling down
     useEffect(() => {
@@ -55,9 +60,11 @@ export const useMovies = () => {
 
                     } else {
                         PAGE.current += 1;
-                        const res = await getMoviesAPI({ page: PAGE.current });
+                        let res
+                        if (searchQuery === "")
+                            res = await getMoviesAPI({ page: PAGE.current });
+                        else res = await searchMoviesAPI({ page: PAGE.current, query: searchQuery });
                         setMoviesList(moviesList?.concat(res.results))
-                        initalMoviesList.current = moviesList?.concat(res.results)
                         if (res.results) {
                             setMoviesListToDisplay(moviesListToDisplay?.concat(res.results.slice(0, 10)))
                             INDEX.current += 10;
@@ -74,7 +81,7 @@ export const useMovies = () => {
     }, [isLoadingMore])
 
     return {
-        moviesList, moviesListToDisplay, setMoviesListToDisplay, initalMoviesList, isMainLoading,
+        moviesList, moviesListToDisplay, setMoviesListToDisplay, isMainLoading,
         refreshing, setRefreshing, isLoadingMore, setIsLoadingMore, setShouldFetch
     }
 }

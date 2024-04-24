@@ -1,10 +1,11 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import {
   FlatList,
   Pressable,
   RefreshControl,
   Text,
   View,
+  TextInput
 } from 'react-native';
 import styles from './styles';
 import { ActivityIndicator } from 'react-native-paper';
@@ -18,8 +19,10 @@ import { DefaultMainNavigationProp } from '../../utils/RoutersType';
 
 const SeriesScreen: React.FC = () => {
   //State & Data
-  const { seriesListToDisplay, isMainLoading, setRefreshing, setShouldFetch: setShouldFetchMovies
-    , refreshing, isLoadingMore, setIsLoadingMore } = useSeries();
+  const [searchQuery, setSearchQuery] = useState<string>("")
+
+  const { seriesListToDisplay, isMainLoading, setRefreshing, setShouldFetch: setShouldFetchSeries
+    , refreshing, isLoadingMore, setIsLoadingMore } = useSeries({ searchQuery });
   const endReached = useRef(false)
 
   //Hooks
@@ -31,7 +34,7 @@ const SeriesScreen: React.FC = () => {
   //functions
   const onRefresh = () => {
     setRefreshing(true)
-    setShouldFetchMovies(true)
+    setShouldFetchSeries(true)
   }
 
   //rendering
@@ -41,6 +44,19 @@ const SeriesScreen: React.FC = () => {
         style={styles.topRatedButton}>
         <Text style={styles.topRatedText}>CHECK TOP RATED</Text>
       </Pressable>
+      <View style={styles.searchbarContainer}>
+        <TextInput
+          style={styles.textInput}
+          placeholderTextColor={colors.gray_900}
+          value={searchQuery}
+          onChangeText={(text) => {
+            setSearchQuery(text)
+          }}
+          placeholder={"Search Series ...."} />
+        <Pressable style={styles.searchButton} onPress={() => setShouldFetchSeries(true)}>
+          <Text style={{ color: colors.white }}>Search!</Text>
+        </Pressable>
+      </View>
       <View style={{ flex: 1 }}>
         {isMainLoading ? <ActivityIndicator color={colors.primary} style={{ marginTop: 70, alignSelf: "center" }} /> :
           <FlatList

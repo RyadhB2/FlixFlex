@@ -1,5 +1,5 @@
 import createApiClient from "./apiClient";
-import { Movie, MoviesInfos, MoviesSeriesParams, Serie, SeriesInfos, VideosInfos } from "../models/movies-series.models";
+import { Movie, MoviesInfos, MoviesSeriesParams, SearchMoviesSeriesParams, Serie, SeriesInfos, VideosInfos } from "../models/movies-series.models";
 
 const apiClient = createApiClient();
 
@@ -63,6 +63,32 @@ export const getVideosAPI = async (type: "Movie" | "Serie", id: number): Promise
     try {
         const response = await apiClient
             .get(`/3/${type === "Movie" ? "movie" : "tv"}/${id}/videos`);
+        return response.data;
+    }
+    catch (error) {
+        throw error;
+    }
+};
+
+export const searchMoviesAPI = async (params: SearchMoviesSeriesParams): Promise<MoviesInfos> => {
+    try {
+        const response = await apiClient
+            .get('/3/search/movie', {
+                params
+            });
+        return response.data;
+    }
+    catch (error) {
+        throw error;
+    }
+};
+
+export const searchSeriesAPI = async (params: SearchMoviesSeriesParams): Promise<SeriesInfos> => {
+    try {
+        const response = await apiClient
+            .get('/3/search/tv', {
+                params
+            });
         return response.data;
     }
     catch (error) {
