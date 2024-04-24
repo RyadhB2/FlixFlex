@@ -1,12 +1,15 @@
 import { NavigatorScreenParams } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
-import { Media } from "../models/movies-series.models";
 
 
 
 export type BottomTabParamList = {
   Movies: undefined;
   Series: undefined;
+}
+export type AuthNavigatorParamList = {
+  Login: undefined;
+  Register: undefined;
 }
 export type MainNavigatorParamList = {
   BottomTab: NavigatorScreenParams<BottomTabParamList> | undefined,
@@ -16,6 +19,6 @@ export type MainNavigatorParamList = {
   }
   TopRated: { forMedia: "Serie" | "Movie" }
 };
-export type BottomTabNavigationProp = StackNavigationProp<BottomTabParamList>;
 
+export type AuthNavigationProp = StackNavigationProp<AuthNavigatorParamList>;
 export type DefaultMainNavigationProp = StackNavigationProp<MainNavigatorParamList>;

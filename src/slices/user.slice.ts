@@ -48,6 +48,18 @@ export const authenticate = (email: string, password: string) => async (dispatch
         throw e
     }
 };
+export const registerAndSignIn = (email: string, password: string) => async (dispatch: AppDispatch) => {
+    try {
+        const authResponse = await auth().createUserWithEmailAndPassword(email, password)
+        const user = authResponse.user;
+        if (user.uid) {
+            dispatch(setId(user.uid))
+            MMKVstorage.set("userId", user.uid);
+        }
+    } catch (e) {
+        throw e
+    }
+};
 
 export const { setToken, setId } = userSlice.actions;
 
