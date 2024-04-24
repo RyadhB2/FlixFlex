@@ -14,6 +14,7 @@ import { colors } from '../../theme/Colors';
 import ItemContainer from '../../components/ItemContainer';
 import { useNavigation } from '@react-navigation/native';
 import { DefaultMainNavigationProp } from '../../utils/RoutersType';
+import Header from '../../components/Header';
 
 
 
@@ -41,9 +42,7 @@ const MoviesScreen: React.FC = () => {
   return (
     <View style={styles.mainContainer}>
       <View style={{ flex: 1 }}>
-        <Pressable style={styles.topRatedButton} onPress={() => navigation.navigate("TopRated", { forMedia: "Movie" })}>
-          <Text style={styles.topRatedText}>CHECK TOP RATED</Text>
-        </Pressable>
+        <Header for="Movie" />
         <View style={styles.searchbarContainer}>
           <TextInput
             style={styles.textInput}

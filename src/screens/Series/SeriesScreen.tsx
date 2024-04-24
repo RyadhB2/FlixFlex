@@ -14,6 +14,7 @@ import ItemContainer from '../../components/ItemContainer';
 import { useSeries } from '../../hooks/useSeries';
 import { useNavigation } from '@react-navigation/native';
 import { DefaultMainNavigationProp } from '../../utils/RoutersType';
+import Header from '../../components/Header';
 
 
 
@@ -40,10 +41,7 @@ const SeriesScreen: React.FC = () => {
   //rendering
   return (
     <View style={styles.mainContainer}>
-      <Pressable onPress={() => navigation.navigate("TopRated", { forMedia: "Serie" })}
-        style={styles.topRatedButton}>
-        <Text style={styles.topRatedText}>CHECK TOP RATED</Text>
-      </Pressable>
+      <Header for="Movie" />
       <View style={styles.searchbarContainer}>
         <TextInput
           style={styles.textInput}

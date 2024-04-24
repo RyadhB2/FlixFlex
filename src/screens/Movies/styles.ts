@@ -27,17 +27,6 @@ export default StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
     },
-    topRatedButton: {
-        height: 64,
-        backgroundColor: colors.primary,
-        borderRadius: 4,
-        justifyContent: "center",
-        alignItems: "center",
-        margin: 5
-    },
-    topRatedText: {
-        color: colors.white
-    },
     textInput: {
         color: colors.black,
         backgroundColor: colors.white,

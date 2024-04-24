@@ -61,6 +61,16 @@ export const registerAndSignIn = (email: string, password: string) => async (dis
     }
 };
 
-export const { setToken, setId } = userSlice.actions;
+export const logout = () => async (dispatch: AppDispatch) => {
+    try {
+        await auth().signOut() //can be used later with listeners
+        dispatch(resetUserInfos())
+        MMKVstorage.set("userId", false);
+    } catch (e) {
+        throw e
+    }
+};
+
+export const { setToken, setId, resetUserInfos } = userSlice.actions;
 
 export default userSlice.reducer;
