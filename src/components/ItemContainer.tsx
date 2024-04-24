@@ -24,11 +24,11 @@ const ItemContainer: React.FC<ItemContainerProps> = ({ item, onPress }) => {
                 <Text numberOfLines={1} style={styles.title}>{isMovie(item) ? item.title : item.name}</Text>
             </View>
             <View style={styles.row}>
-                <Text>Release date :</Text>
+                <Text style={{ color: colors.black }}>Release date :</Text>
                 <Text numberOfLines={1} style={styles.date}>{date ? format(date, "dd/MM/yyyy") : "---"}</Text>
             </View>
 
-            <Text>Overview :</Text>
+            <Text style={{ color: colors.black }}>Overview :</Text>
             <Text numberOfLines={4} style={[styles.text,]}>{`${item.overview}`}</Text>
 
             <View style={styles.row}>

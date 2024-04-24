@@ -78,7 +78,7 @@ const TopRatedScreen: React.FC = () => {
             refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
             ListEmptyComponent={() =>
               <View style={{ flexGrow: 1, alignSelf: "center" }}>
-                <Text>Nothing to see yet ...</Text>
+                <Text style={{ color: colors.gray_900 }}>Nothing to see ...</Text>
               </View>
             }
           />
